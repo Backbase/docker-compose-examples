@@ -1,0 +1,148 @@
+version: "3.7"
+# https://docs.docker.com/compose/compose-file/
+
+x-common-variables: &common-variables
+  SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+  EXTERNAL_SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+  EXTERNAL_ENC_SECRET_KEY: JWTEncKeyDontUseInProduction666!
+  eureka.client.serviceUrl.defaultZone: http://registry:8080/eureka
+  eureka.instance.non-secure-port: 8080
+  management.endpoints.web.exposure.include: info,health,beans,bindings
+  SPRING_MAIN_BANNER-MODE: 'off'
+
+x-database-variables: &database-variables
+  spring.liquibase.enabled: 'true'
+  spring.datasource.username: sa
+  spring.datasource.password: B4ckB4s3
+  spring.datasource.driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  spring.jpa.database-platform: org.hibernate.dialect.SQLServer2012Dialect
+  spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+x-message-broker-variables: &message-broker-variables
+  spring.activemq.broker-url: tcp://message-broker:61616
+  spring.activemq.user: admin
+  spring.activemq.password: admin
+
+services:
+
+  message-broker:
+    image: rmohr/activemq:5.15.9-alpine
+    container_name: demo_activemq
+    privileged: true
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+      - "5672:5672"
+      - "61613:61613"
+      - "1883:1883"
+      - "61614:61614"
+
+  mssql:
+    image: docker.io/torrespro/mssql_2017_bb_initialized
+    container_name: demo_mssql
+    ports:
+      - "1433:1433"
+    volumes:
+      - demo_mssql_data:/var/opt/mssql/data
+
+  edge:
+    image: repo.backbase.com/backbase-docker-releases/gateway:IPS-1.11.8-latest
+    ports:
+      - "8080:8080"
+    environment:
+      <<: *common-variables
+      gateway.token.converter.url: http://token-converter/convert
+    links:
+      - registry
+      - token-converter
+  
+  registry:
+    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.11.8-latest
+    ports:
+      - "8761:8080"
+
+  token-converter:
+    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.11.8-latest
+    ports:
+      - "7779:8080"
+    environment:
+      <<: *common-variables
+    links:
+      - registry
+
+  auth:
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.11.9-latest-no-production
+    ports:
+      - "7778:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+    links:
+      - registry
+      - message-broker
+
+  contentservices:
+    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.3.1-latest
+    hostname: contentservices
+    ports:
+      - "8040:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+      <<: *database-variables
+      spring.datasource.url: jdbc:sqlserver://mssql:1433;databaseName=cs
+    links:
+      - mssql
+      - registry
+      - message-broker
+
+  portal:
+    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.3.1-latest
+    hostname: portal
+    ports:
+      - "8070:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+      <<: *database-variables
+      portal.resource-location.profile: filesystem
+      portal.resource-location.path: /tmp
+      spring.datasource.url: jdbc:sqlserver://mssql:1433;databaseName=portal
+      spring.jpa.properties.hibernate.session_factory_name_is_jndi: 'false'
+    links:
+      - mssql
+      - registry
+      - contentservices
+      - message-broker
+
+  provisioning:
+    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.3.1-latest
+    hostname: provisioning
+    ports:
+      - "8090:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+      <<: *database-variables
+      spring.datasource.url: jdbc:sqlserver://mssql:1433;databaseName=provisioning
+    links:
+      - mssql
+      - registry
+      - message-broker
+
+  statics:
+    image: docker.io/torrespro/import-statics-demo-sh:latest
+    links:
+      - edge
+      - portal
+      - contentservices
+      - provisioning
+    environment:
+      REPO_USERNAME: yourUsername
+      REPO_PASSWORD: yourPassword
+      CX6_VERSION: '6.2.2' 
+      CX_MANAGER_VERSION: b3554
+    command: sh -c "dockerize -wait http://edge:8080/api/provisioning/actuator/health/liveness -timeout 300s -wait-retry-interval 30s /import-statics"
+
+volumes:
+  demo_mssql_data:
