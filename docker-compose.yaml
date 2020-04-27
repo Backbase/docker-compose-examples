@@ -61,7 +61,7 @@ services:
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.11.9-latest
+    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.11.8-latest
     ports:
       - "8761:8080"
 
@@ -75,7 +75,7 @@ services:
       - registry
 
   auth:
-    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.11.8-latest-no-production
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.11.9-latest-no-production
     ports:
       - "7778:8080"
     environment:
