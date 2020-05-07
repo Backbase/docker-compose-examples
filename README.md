@@ -3,8 +3,9 @@
 A set of Docker compose files to demo Backbase docker images and how they can be used
 
 - [Backbase with ActiveMQ](docker-compose.yaml)
-- [Backbase with RabbitMQ](docker-compose-rabbit.yaml)
-- [Backbase with Apache Kakfa](docker-compose-kafka.yaml)
-- [Backbase with SQL Server](docker-compose-mssql.yaml)
-- [Backbase with DBS Lean services](docker-compose-dbs-lean.yaml)
+- [Backbase with RabbitMQ](rabbitmq/docker-compose.yaml)
+- [Backbase with Apache Kakfa](kafka/docker-compose.yaml)
+- [Backbase with SQL Server](sql-server/docker-compose.yaml)
+- [Backbase with DBS Lean services](dbs-lean/docker-compose.yaml)
+- [Backbase with CX6 and Content Approval services](content-approval/docker-compose.yaml)
 - Backbase with Identity WIP 

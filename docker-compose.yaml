@@ -141,11 +141,6 @@ services:
       - portal
       - contentservices
       - provisioning
-    environment:
-      REPO_USERNAME: yourUsername
-      REPO_PASSWORD: yourPassword
-      CX6_VERSION: '6.2.2' 
-      CX_MANAGER_VERSION: b3554
     command: sh -c "dockerize -wait http://edge:8080/api/provisioning/actuator/health/liveness -timeout 300s -wait-retry-interval 30s /import-statics"
 
 volumes:
