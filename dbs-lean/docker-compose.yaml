@@ -50,23 +50,24 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/gateway:IPS-1.11.8-latest
+    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.0
     ports:
       - "8080:8080"
     environment:
       <<: *common-variables
-      gateway.token.converter.url: http://token-converter/convert
+      gateway.actuator.user: admin
+      gateway.actuator.password: admin
     links:
       - registry
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.11.8-latest
+    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.0
     ports:
       - "8761:8080"
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.11.8-latest
+    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.12.0
     ports:
       - "7779:8080"
     environment:
@@ -75,7 +76,7 @@ services:
       - registry
 
   auth:
-    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.11.9-latest-no-production
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.12.0-no-production
     ports:
       - "7778:8080"
     environment:
