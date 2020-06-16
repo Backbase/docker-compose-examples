@@ -1,0 +1,30 @@
+imports:
+  - repository: https://repo.backbase.com
+    ## API KEY to access JFrog Artifactory repository
+    ## For other repositories use own keys
+    apikey:
+    ## Username and password in case you don't want to use an API KEY to access JFrog Artifactory
+    ## IMPORTANT! only 1 authentication method is required
+    username: <yourRepoUsername>
+    password: <yourRepoPassword>
+    statics:
+      - /backbase-6-release/com/backbase/tools/cx/cx6-import-tool-cli/6.2.5-b64/cx6-import-tool-cli-6.2.5-b64.jar
+      - /backbase-6-release/com/backbase/cxp/editorial-collection/b3591/editorial-collection-b3591.zip
+      - /expert-release-local/com/backbase/web-sdk/collection/collection-bb-web-sdk/1.11.0/collection-bb-web-sdk-1.11.0.zip
+      - /backbase-6-release/com/backbase/cxp/experience-manager/b3591/experience-manager-b3591.zip
+target:
+  context: http://edge:8080/api/provisioning
+  auth-url: http://edge:8080/api/auth/login
+  identity-real:
+  username: admin
+  password: admin
+  retry-max-attempts: 200
+  retry-back-off-period: 2000
+
+check:
+  enabled: true
+  targets:
+    - name: Authentication
+      url: http://edge:8080/api/auth/actuator/health
+    - name: 8080/api/provisioning
+      url: http://edge:8080/api/provisioning/actuator/health

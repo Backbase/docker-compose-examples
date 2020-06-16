@@ -160,18 +160,15 @@ services:
       - message-broker
 
   statics:
-    image: torrespro/import-statics-demo-sh:latest
+    image: torrespro/import-statics:latest
+    volumes:
+      - ./../job.yaml:/import/job.yaml
     links:
       - edge
       - portal
       - contentservices
       - provisioning
-    environment:
-      REPO_USERNAME: yourUsername
-      REPO_PASSWORD: yourPassword
-      CX6_VERSION: '6.2.5-b64' 
-      CX_MANAGER_VERSION: b3591
-    command: sh -c "dockerize -wait http://edge:8080/api/provisioning/actuator/health/liveness -timeout 300s -wait-retry-interval 30s /import-statics"
+    command: sh -c "dockerize -wait http://edge:8080/api/provisioning/actuator/health/liveness -timeout 300s -wait-retry-interval 30s ./import-statics.py"
 
 volumes:
   demo_mysql_data:
