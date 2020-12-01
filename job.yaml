@@ -8,10 +8,10 @@ imports:
     username: <yourRepoUsername>
     password: <yourRepoPassword>
     statics:
-      - /backbase-6-release/com/backbase/tools/cx/cx6-import-tool-cli/6.2.5-b64/cx6-import-tool-cli-6.2.5-b64.jar
-      - /backbase-6-release/com/backbase/cxp/editorial-collection/b3591/editorial-collection-b3591.zip
-      - /expert-release-local/com/backbase/web-sdk/collection/collection-bb-web-sdk/1.11.0/collection-bb-web-sdk-1.11.0.zip
-      - /backbase-6-release/com/backbase/cxp/experience-manager/b3591/experience-manager-b3591.zip
+      - /backbase-6-release/com/backbase/tools/cx/cx6-import-tool-cli/6.2.10-b1/cx6-import-tool-cli-6.2.10-b1.jar
+      - /backbase-6-release/com/backbase/cxp/editorial-collection/2.0.0-b340/editorial-collection-2.0.0-b340.zip
+      - /expert-release-local/com/backbase/web-sdk/collection/collection-bb-web-sdk/1.14.0/collection-bb-web-sdk-1.14.0.zip
+      - /backbase-6-release/com/backbase/cxp/experience-manager/2.0.0-b340/experience-manager-2.0.0-b340.zip
 target:
   context: http://edge:8080/api/provisioning
   auth-url: http://edge:8080/api/auth/login

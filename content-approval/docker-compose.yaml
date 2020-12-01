@@ -69,14 +69,14 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.0
+    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.6
     ports:
       - "8761:8080"
     environment:
       <<: *sso-variables
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.12.0
+    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.12.6
     ports:
       - "7779:8080"
     environment:
@@ -88,7 +88,7 @@ services:
       - registry
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.0
+    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.6
     ports:
       - "8754:8080"
     environment:
@@ -100,7 +100,7 @@ services:
       - token-converter
 
   auth:
-    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.12.0-no-production
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.12.6-no-production
     ports:
       - "7777:8080"
     environment:
@@ -122,7 +122,7 @@ services:
       - edge
 
   space-controller:
-    image: repo.backbase.com/backbase-docker-releases/space-controller:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/space-controller:CXS-6.2.10
     hostname: space-controller
     ports:
       - "8080:8080"
@@ -140,7 +140,7 @@ services:
       - mysql
 
   contentservices:
-    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.10
     hostname: contentservices
     ports:
       - "8040:8080"
@@ -162,7 +162,7 @@ services:
       - message-broker
 
   portal:
-    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.10
     hostname: portal
     ports:
       - "8070:8080"
@@ -188,7 +188,7 @@ services:
       - message-broker
 
   provisioning:
-    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.10
     hostname: provisioning
     ports:
       - "8090:8080"

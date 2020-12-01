@@ -50,7 +50,7 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.0
+    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.6
     ports:
       - "8080:8080"
     environment:
@@ -62,12 +62,12 @@ services:
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.0
+    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.6
     ports:
       - "8761:8080"
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/oidc-token-converter-service:IDENTITY-1.6.0.1-latest 
+    image: repo.backbase.com/backbase-docker-releases/oidc-token-converter-service:IDENTITY-1.6.0.1-latest
     ports:
       - "7779:8080"
     environment:
@@ -76,7 +76,7 @@ services:
       - registry
 
   identity:
-    image: repo.backbase.com/backbase-docker-releases/backbase-identity:IDENTITY-1.6.0.1-latest 
+    image: repo.backbase.com/backbase-docker-releases/backbase-identity:IDENTITY-1.6.0.1-latest
     ports:
       - "9090:8080"
     environment:
@@ -107,7 +107,7 @@ services:
       - ./json:/tmp/keycloak-export
 
   contentservices:
-    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.10
     hostname: contentservices
     ports:
       - "8040:8080"
@@ -122,7 +122,7 @@ services:
       - message-broker
 
   portal:
-    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.10
     hostname: portal
     ports:
       - "8070:8080"
@@ -141,7 +141,7 @@ services:
       - message-broker
 
   provisioning:
-    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.5
+    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.10
     hostname: provisioning
     ports:
       - "8090:8080"
