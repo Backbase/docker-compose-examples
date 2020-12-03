@@ -50,7 +50,7 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/edge:IPS-1.12.6
+    image: repo.backbase.com/backbase-docker-releases/edge:${IPS_VERSION}
     ports:
       - "8080:8080"
     environment:
@@ -62,12 +62,12 @@ services:
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:IPS-1.12.6
+    image: repo.backbase.com/backbase-docker-releases/registry:${IPS_VERSION}
     ports:
       - "8761:8080"
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:IPS-1.12.6
+    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:${IPS_VERSION}
     ports:
       - "7779:8080"
     environment:
@@ -76,7 +76,7 @@ services:
       - registry
 
   auth:
-    image: repo.backbase.com/backbase-docker-releases/authentication-dev:IPS-1.12.6-no-production
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:${IPS_VERSION}-no-production
     ports:
       - "7778:8080"
     environment:
@@ -87,7 +87,7 @@ services:
       - message-broker
 
   contactmanager:
-    image: repo.backbase.com/backbase-docker-releases/contact-manager:DBS-2.19.3
+    image: repo.backbase.com/backbase-docker-releases/contact-manager:${DBS_VERSION}
     ports:
       - "8010:8080"
     environment:
@@ -101,7 +101,7 @@ services:
       - message-broker
 
   approval:
-    image: repo.backbase.com/backbase-docker-releases/approval-service:DBS-2.19.3
+    image: repo.backbase.com/backbase-docker-releases/approval-service:${DBS_VERSION}
     ports:
       - "8020:8080"
     environment:
@@ -115,7 +115,7 @@ services:
       - message-broker
 
   paymentorder:
-    image: repo.backbase.com/backbase-docker-releases/payment-order-service:DBS-2.19.3
+    image: repo.backbase.com/backbase-docker-releases/payment-order-service:${DBS_VERSION}
     ports:
       - "8030:8080"
     environment:
@@ -131,7 +131,7 @@ services:
       - message-broker
 
   message:
-    image: repo.backbase.com/backbase-docker-releases/messages-service:DBS-2.19.3
+    image: repo.backbase.com/backbase-docker-releases/messages-service:${DBS_VERSION}
     ports:
       - "8040:8080"
     environment:
@@ -146,7 +146,7 @@ services:
       - message-broker
 
   notification:
-    image: repo.backbase.com/backbase-docker-releases/notifications-service:DBS-2.19.3
+    image: repo.backbase.com/backbase-docker-releases/notifications-service:${DBS_VERSION}
     ports:
       - "8050:8080"
     environment:

@@ -96,7 +96,7 @@ services:
       - message-broker
 
   contentservices:
-    image: repo.backbase.com/backbase-docker-releases/contentservices:CXS-6.2.10
+    image: repo.backbase.com/backbase-docker-releases/contentservices:${CX_VERSION}
     hostname: contentservices
     ports:
       - "8040:8080"
@@ -111,7 +111,7 @@ services:
       - message-broker
 
   portal:
-    image: repo.backbase.com/backbase-docker-releases/portal:CXS-6.2.10
+    image: repo.backbase.com/backbase-docker-releases/portal:${CX_VERSION}
     hostname: portal
     ports:
       - "8070:8080"
@@ -130,7 +130,7 @@ services:
       - message-broker
 
   provisioning:
-    image: repo.backbase.com/backbase-docker-releases/provisioning:CXS-6.2.10
+    image: repo.backbase.com/backbase-docker-releases/provisioning:${CX_VERSION}
     hostname: provisioning
     ports:
       - "8090:8080"
