@@ -50,7 +50,7 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/edge:${IPS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/edge:${BB_VERSION}
     ports:
       - "8080:8080"
     environment:
@@ -62,12 +62,12 @@ services:
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:${IPS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/registry:${BB_VERSION}
     ports:
       - "8761:8080"
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/oidc-token-converter-service:IDENTITY-1.6.0.1-latest
+    image: repo.backbase.com/backbase-docker-releases/oidc-token-converter-service:${BB_VERSION}
     ports:
       - "7779:8080"
     environment:
@@ -76,11 +76,11 @@ services:
       - registry
 
   identity:
-    image: repo.backbase.com/backbase-docker-releases/backbase-identity:IDENTITY-1.6.0.1-latest
+    image: repo.backbase.com/backbase-docker-releases/backbase-identity:${BB_VERSION}
     ports:
       - "9090:8080"
     environment:
-      QUARKUS_DATASOURCE_URL: jdbc:mysql://mysql:3306/identity?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      QUARKUS_DATASOURCE_URL: jdbc:mysql://mysql:3306/identity?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
       QUARKUS_DATASOURCE_DRIVER: com.mysql.jdbc.Driver
       QUARKUS_DATASOURCE_USERNAME: root
       QUARKUS_DATASOURCE_PASSWORD: root
@@ -107,7 +107,7 @@ services:
       - ./json:/tmp/keycloak-export
 
   contentservices:
-    image: repo.backbase.com/backbase-docker-releases/contentservices:${CX_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/contentservices:${BB_VERSION}
     hostname: contentservices
     ports:
       - "8040:8080"
@@ -115,14 +115,14 @@ services:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/cs?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/cs?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry
       - message-broker
 
   portal:
-    image: repo.backbase.com/backbase-docker-releases/portal:${CX_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/portal:${BB_VERSION}
     hostname: portal
     ports:
       - "8070:8080"
@@ -132,7 +132,7 @@ services:
       <<: *database-variables
       portal.resource-location.profile: filesystem
       portal.resource-location.path: /tmp
-      spring.datasource.url: jdbc:mysql://mysql:3306/portal?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/portal?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
       spring.jpa.properties.hibernate.session_factory_name_is_jndi: 'false'
     links:
       - mysql
@@ -141,7 +141,7 @@ services:
       - message-broker
 
   provisioning:
-    image: repo.backbase.com/backbase-docker-releases/provisioning:${CX_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/provisioning:${BB_VERSION}
     hostname: provisioning
     ports:
       - "8090:8080"
@@ -149,7 +149,7 @@ services:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/provisioning?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/provisioning?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry

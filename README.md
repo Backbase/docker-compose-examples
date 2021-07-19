@@ -14,8 +14,9 @@ Update `.env` file for version.
 
 To run nested `docker-compose.yaml` from root:
 ```
-docker-compose -f <path-to-compose-file> up -d
+docker-compose --env-file .env -f <path-to-compose-file> up -d
 ```
+or just export `BB_VERSION` in your terminal.
 
 ## Provisioning Statics
 

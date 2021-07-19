@@ -50,7 +50,7 @@ services:
       - demo_mysql_data:/var/lib/mysql
 
   edge:
-    image: repo.backbase.com/backbase-docker-releases/edge:${IPS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/edge:${BB_VERSION}
     ports:
       - "8080:8080"
     environment:
@@ -62,12 +62,12 @@ services:
       - token-converter
   
   registry:
-    image: repo.backbase.com/backbase-docker-releases/registry:${IPS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/registry:${BB_VERSION}
     ports:
       - "8761:8080"
 
   token-converter:
-    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:${IPS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/bb-authentication-token-converter-service:${BB_VERSION}
     ports:
       - "7779:8080"
     environment:
@@ -76,7 +76,7 @@ services:
       - registry
 
   auth:
-    image: repo.backbase.com/backbase-docker-releases/authentication-dev:${IPS_VERSION}-no-production
+    image: repo.backbase.com/backbase-docker-releases/authentication-dev:${BB_VERSION}-no-production
     ports:
       - "7778:8080"
     environment:
@@ -87,35 +87,35 @@ services:
       - message-broker
 
   contactmanager:
-    image: repo.backbase.com/backbase-docker-releases/contact-manager:${DBS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/contact-manager:${BB_VERSION}
     ports:
       - "8010:8080"
     environment:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/contact?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/contact?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry
       - message-broker
 
   approval:
-    image: repo.backbase.com/backbase-docker-releases/approval-service:${DBS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/approval-service:${BB_VERSION}
     ports:
       - "8020:8080"
     environment:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/approval?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/approval?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry
       - message-broker
 
   paymentorder:
-    image: repo.backbase.com/backbase-docker-releases/payment-order-service:${DBS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/payment-order-service:${BB_VERSION}
     ports:
       - "8030:8080"
     environment:
@@ -124,21 +124,21 @@ services:
       <<: *database-variables
       portal.resource-location.profile: filesystem
       portal.resource-location.path: /tmp
-      spring.datasource.url: jdbc:mysql://mysql:3306/payment?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/payment?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry
       - message-broker
 
   message:
-    image: repo.backbase.com/backbase-docker-releases/messages-service:${DBS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/messages-service:${BB_VERSION}
     ports:
       - "8040:8080"
     environment:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/message?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/message?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
       MESSAGING_PASSWORD: password
     links:
       - mysql
@@ -146,14 +146,14 @@ services:
       - message-broker
 
   notification:
-    image: repo.backbase.com/backbase-docker-releases/notifications-service:${DBS_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/notifications-service:${BB_VERSION}
     ports:
       - "8050:8080"
     environment:
       <<: *common-variables
       <<: *message-broker-variables
       <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/notification?cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      spring.datasource.url: jdbc:mysql://mysql:3306/notification?useSSL=false&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     links:
       - mysql
       - registry
