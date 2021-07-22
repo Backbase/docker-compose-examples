@@ -8,7 +8,7 @@ imports:
     username: <yourRepoUsername>
     password: <yourRepoPassword>
     statics:
-      - /backbase-6-release/com/backbase/tools/provisioner/7.0.0-b2/provisioner-7.0.0-b2.jar
+      - /backbase-6-release/com/backbase/tools/provisioner-cli/7.0.0-b2/provisioner-cli-7.0.0-b2.jar
       - /backbase-6-release/com/backbase/cxp/editorial-collection/2.23.0-b21/editorial-collection-2.23.0-b21.zip
       - /expert-release-local/com/backbase/web-sdk/collection/collection-bb-web-sdk/1.16.1/collection-bb-web-sdk-1.16.1.zip
       - /backbase-6-release/com/backbase/cxp/experience-manager/2.23.0-b21/experience-manager-2.23.0-b21.zip
